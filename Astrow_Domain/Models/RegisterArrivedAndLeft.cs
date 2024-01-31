@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,11 @@ namespace Astrow_Domain.Models
 {
     public class RegisterArrivedAndLeft
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public Guid PersonId { get; set; }
         public DateTime timeregistered { get; set; }
         public enum PersonType { Student, Teacher }
         public enum RegisterType {Arrived, Left}
-        
     }
 }

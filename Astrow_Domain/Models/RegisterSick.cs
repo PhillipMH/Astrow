@@ -8,6 +8,7 @@ namespace Astrow_Domain.Models
 {
     public class RegisterSick
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string SickReason { get; set; }
         public Guid PersonId { get; set; }

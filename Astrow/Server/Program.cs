@@ -1,4 +1,7 @@
+using Astrow_Domain.DBContext;
+using Astrow_Domain.Repositories;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
 
 namespace Astrow
 {
@@ -12,7 +15,6 @@ namespace Astrow
 
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
