@@ -12,7 +12,7 @@ namespace Astrow_Domain.Models
         public Guid Id { get; set; }
         public string Name { get; set; }
         public Guid PersonId { get; set; }
-        public DateTime timeregistered { get; set; }
+        public DateTime TimeRegistered { get; set; }
         public enum PersonType { Student, Teacher }
         public enum RegisterType {Arrived, Left}
     }

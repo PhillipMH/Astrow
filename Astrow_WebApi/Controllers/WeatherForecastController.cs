@@ -1,7 +1,7 @@
-using Astrow_Domain.DBContext;
-using Astrow_Domain.Models;
-using Astrow_Domain.Repositories;
+using Astrow_Services.Services;
 using Microsoft.AspNetCore.Mvc;
+using Astrow.Shared.DTO;
+using Astrow_Domain.Models;
 
 namespace Astrow_WebApi.Controllers
 {
@@ -36,28 +36,56 @@ namespace Astrow_WebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] Teachers newteacher)
+        [Route("Create")]
+        public IActionResult Create([FromBody] TeacherDTO newteacher)
         {
             _crud.Create(newteacher);
             return Ok();
         }
         [HttpPost]
-        [Route("Update")]
-        public IActionResult Update([FromBody] Teachers updatedteacher, [FromQuery] Guid id)
+        [Route("Read")]
+        public IActionResult ReadUserById([FromQuery] Guid id)
         {
-            
-            Teachers teacher = _crud.GetTeacherById(id);
-            teacher = updatedteacher;
-            _crud.Update(teacher);
+            var foundteacher = _crud.GetUserById<Teachers>(id);
+            Console.WriteLine(foundteacher);
+            return Ok();
+        }
+        [HttpPost]
+        [Route("Update")]
+        public IActionResult Update([FromBody] TeacherDTO updateduser, [FromQuery] Guid id)
+        {
+            TeacherDTO newuser = _crud.GetUserById<TeacherDTO>(id);
+            newuser = updateduser;
+            _crud.Update(newuser);
             return Ok();
         }
         [HttpPost]
         [Route("Delete")]
-        public IActionResult Delete([FromQuery] Guid id) 
+        public IActionResult Delete([FromQuery] Guid id)
         {
-            Teachers teacher = _crud.GetTeacherById(id);
-            _crud.Delete(teacher);
+            StudentDTO user = _crud.GetUserById<StudentDTO>(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            _crud.Delete(user);
             return Ok();
+        }
+        [HttpPost]
+        [Route("Login")]
+        public async Task<IActionResult> Login([FromQuery] string unilogin, [FromQuery] string password)
+        {
+            bool teacherlogin = await _crud.GenericLogin(unilogin, password);
+            if (teacherlogin == true)
+            {
+                return Ok();
+            }
+            if (teacherlogin == false)
+            {
+                return NotFound();
+            }
+            return null;
         }
     }
 }

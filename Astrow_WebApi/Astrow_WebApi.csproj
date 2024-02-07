@@ -18,7 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Astrow_Domain\Astrow_Domain.csproj" />
+    <ProjectReference Include="..\Astrow\Shared\Astrow.Shared.csproj" />
+    <ProjectReference Include="..\Astrow_Services\Astrow_Services.csproj" />
   </ItemGroup>
 
 </Project>
