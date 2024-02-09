@@ -1,6 +1,6 @@
 ﻿using Astrow_Domain.Models;
 
-namespace Astrow_Services.Services
+namespace Astrow_Services.Interfaces
 {
     public interface IGenericCrud
     {

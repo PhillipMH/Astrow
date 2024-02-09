@@ -1,7 +1,8 @@
-using Astrow_Services.Services;
 using Microsoft.AspNetCore.Mvc;
 using Astrow.Shared.DTO;
 using Astrow_Domain.Models;
+using AutoMapper;
+using Astrow_Services.Interfaces;
 
 namespace Astrow_WebApi.Controllers
 {
@@ -14,12 +15,11 @@ namespace Astrow_WebApi.Controllers
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
 
-        private readonly ILogger<WeatherForecastController> _logger;
-
         private readonly IGenericCrud _crud;
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IGenericCrud crud)
+        private readonly IMapper _mapper;
+        public WeatherForecastController( IGenericCrud crud, IMapper mapper)
         {
-            _logger = logger;
+            _mapper = mapper;
             _crud = crud;
         }
 
@@ -72,20 +72,11 @@ namespace Astrow_WebApi.Controllers
             _crud.Delete(user);
             return Ok();
         }
-        [HttpPost]
-        [Route("Login")]
-        public async Task<IActionResult> Login([FromQuery] string unilogin, [FromQuery] string password)
+        [HttpGet]
+        [Route("Read Dto")]
+        public ActionResult GetDtos()
         {
-            bool teacherlogin = await _crud.GenericLogin(unilogin, password);
-            if (teacherlogin == true)
-            {
-                return Ok();
-            }
-            if (teacherlogin == false)
-            {
-                return NotFound();
-            }
-            return null;
+            return Ok();
         }
     }
 }

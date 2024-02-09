@@ -22,5 +22,7 @@ namespace Astrow_Domain.Models
         public TimeSpan FlexTotal { get; set; }
         public string Password { get; set; }
         public string? Gender { get; set; }
+        public bool IsSick { get; set; } = false;
+        public RegisterSick RegisteredSick { get; set; }
     }
 }

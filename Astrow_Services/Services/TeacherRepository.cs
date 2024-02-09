@@ -19,21 +19,6 @@ namespace Astrow_Services.Services
             _dbcontext = dbcontext;
             _crud = crud;
         }
-        public async Task<bool> GetTeacherLogin(string unilogin, string password, bool logged)
-        {
-            var teacher = _crud.GenericLogin(unilogin, password);
-            if (teacher == null) 
-            {
-                logged = false;
-            }
-            else if (teacher != null)
-            {
-                logged = true;
-                //add indicater and add session to if the login was successfull
-            }
-            return logged;
-        }
-
         public async Task<Teachers> CreateTeacher(Teachers teacher, bool teacherCreated)
         {
             if (teacher != null)
@@ -54,10 +39,23 @@ namespace Astrow_Services.Services
             var foundteacher = _crud.GetUserById<Teachers>(teacherId);
             return foundteacher;
         }
+        public async Task<Teachers> UpdateStudent(Teachers teacher, Guid id)
+        {
+            _crud.GetUserById<Teachers>(id);
+            _crud.Update(teacher);
+            return new();
+        }
         public async void DeleteTeacher(Guid id)
         {
             var teacher = _crud.GetUserById<Teachers>(id);
             _crud.Delete(teacher);
+        }
+        public async Task<Teachers> LoginTeacher(string unilogin, string password)
+        {
+            var teacher = await _dbcontext.Teachers
+                .SingleOrDefaultAsync(t => t.Unilogin == unilogin && t.Password == password);
+
+            return teacher;
         }
         
     }

@@ -8,44 +8,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Astrow_Domain.DBContext;
 
 namespace Astrow_Services.Services
 {
     public class StudentRepository
     {
-        private readonly Astrow_DomainContext _dbcontext;
+        
         private readonly IGenericCrud _crud;
-        public StudentRepository(Astrow_DomainContext dbcontext, IGenericCrud crud)
+        private readonly Astrow_DomainContext _dbContext;
+        public StudentRepository(IGenericCrud crud, Astrow_DomainContext dbcontext)
         {
-         _dbcontext = dbcontext;
-         _crud = crud;
+            _crud = crud;
+            _dbContext = dbcontext;
         }
         public async Task<bool> GetStudentLogin(string unilogin, string password, bool loginsuccess = false)
         {
             var student = await _crud.GenericLogin(unilogin, password);
-            if (student == null)
-            {
-                loginsuccess = false;
-                //add toast in frontend to indicate that something is wrong
-            }
-            if (student != null)
-            {
-                loginsuccess = true;
-                //add toast in frontend to indicate that login was successfull
-            }
-            return loginsuccess;
+
+            return student;
         }
-        public async Task<Students> CreateStudent(Students student, bool studentcreated)
+        public async Task<Students> CreateStudent(Students student)
         {
             if (student != null)
             {
                 _crud.Create(student);
-                studentcreated = true;
                 //add toast in frontend to indicate that user has been added
             }
             else if(student == null)
             {
-                studentcreated = false;
                 return new();
                 //add toast in frontend to indicate that user wasnt created
             }
@@ -58,6 +49,7 @@ namespace Astrow_Services.Services
         }
         public async Task<Students> UpdateStudent(Students student, Guid id)
         {
+            _crud.GetUserById<Students>(id);
             _crud.Update(student);
             return new();
         }
@@ -65,6 +57,11 @@ namespace Astrow_Services.Services
         {
             _crud.Delete(studentid);
             return new();
+        }
+        public async Task<Students> LoginStudents(string unilogin, string password)
+        {
+            var student = await _dbContext.Students
+                .SingleOrDefaultAsync(s => s.Unilogin == unilogin && s.Password == password)
         }
 
     }

@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Astrow\Shared\Astrow.Shared.csproj" />
     <ProjectReference Include="..\Astrow_Domain\Astrow_Domain.csproj" />
   </ItemGroup>
 
