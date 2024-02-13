@@ -52,24 +52,25 @@ namespace Astrow_WebApi.Controllers
         }
         [HttpPost]
         [Route("Update")]
-        public IActionResult Update([FromBody] TeacherDTO updateduser, [FromQuery] Guid id)
+        public Task<Teachers> Update([FromBody] Teachers updateduser, [FromQuery] Guid id)
         {
-            TeacherDTO newuser = _crud.GetUserById<TeacherDTO>(id);
-            newuser = updateduser;
-            _crud.Update(newuser);
-            return Ok();
+            //Teacnewuser = _crud.GetUserById<Teachers>(id);
+            //newuser = updateduser;
+            //_crud.Update(newuser);
+            //return Ok();
+            return null;
         }
         [HttpPost]
         [Route("Delete")]
         public IActionResult Delete([FromQuery] Guid id)
         {
-            StudentDTO user = _crud.GetUserById<StudentDTO>(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
+            //StudentDTO user = _crud.GetUserById<StudentDTO>(id);
+            //if (user == null)
+            //{
+            //    return NotFound();
+            //}
 
-            _crud.Delete(user);
+            /*_crud.Delete(user)*/;
             return Ok();
         }
         [HttpGet]

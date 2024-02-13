@@ -1,0 +1,24 @@
+﻿.jumbotron {
+    background-color: transparent;
+    color: #343a40;
+    padding: 100px 20px;
+    text-align: center;
+}
+
+    .jumbotron h1 {
+        font-size: 3.5rem;
+        margin-bottom: 30px;
+    }
+
+    .jumbotron p {
+        font-size: 1.8rem;
+        margin-bottom: 40px; 
+    }
+
+.btn-get-started {
+    background-color: #007bff;
+    border-color: #007bff;
+    border-radius: 20px;
+    padding: 10px 30px;
+    font-size: 1.2rem;
+}

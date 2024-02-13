@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Astrow_Domain.DBContext;
+using Astrow_Services.Interfaces;
 
 namespace Astrow_Services.Services
 {
@@ -22,9 +23,10 @@ namespace Astrow_Services.Services
             _crud = crud;
             _dbContext = dbcontext;
         }
-        public async Task<bool> GetStudentLogin(string unilogin, string password, bool loginsuccess = false)
+        public async Task<Students> GetStudentLogin(string unilogin, string password)
         {
-            var student = await _crud.GenericLogin(unilogin, password);
+            var student = await _dbContext.Students
+                .SingleOrDefaultAsync(t => t.Unilogin == unilogin && t.Password == password);
 
             return student;
         }
@@ -44,7 +46,7 @@ namespace Astrow_Services.Services
         }
         public async Task<Students> ReadSpecificStudent(Guid studentId)
         {
-            var founduser = _crud.GetUserById<Students>(studentId);
+            var founduser = await _crud.GetUserById<Students>(studentId);
             return founduser;
         }
         public async Task<Students> UpdateStudent(Students student, Guid id)
@@ -61,7 +63,17 @@ namespace Astrow_Services.Services
         public async Task<Students> LoginStudents(string unilogin, string password)
         {
             var student = await _dbContext.Students
-                .SingleOrDefaultAsync(s => s.Unilogin == unilogin && s.Password == password)
+                .SingleOrDefaultAsync(s => s.Unilogin == unilogin && s.Password == password);
+            return student;
+        }
+        public async Task<List<Students>> GetAllStudents()
+        {
+            List<Students> temp = new List<Students>();
+            foreach(var student in _dbContext.Students)
+            {
+                temp.Add(student);
+            }
+            return temp;
         }
 
     }

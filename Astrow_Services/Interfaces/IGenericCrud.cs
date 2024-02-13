@@ -5,9 +5,8 @@ namespace Astrow_Services.Interfaces
     public interface IGenericCrud
     {
         void Create<User>(User id);
-        User GetUserById<User>(Guid id) where User : class;
+        Task<User> GetUserById<User>(Guid userid) where User : class;
         void Update<User>(User userid);
         void Delete<User>(User id);
-        Task<bool> GenericLogin(string username, string password);
     }
 }

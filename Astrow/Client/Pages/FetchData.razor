@@ -2,7 +2,7 @@
 @using Astrow.Shared
 @inject HttpClient Http
 
-<PageTitle>Weather forecast</PageTitle>
+@* <PageTitle>Weather forecast</PageTitle>
 
 <h1>Weather forecast</h1>
 
@@ -35,13 +35,13 @@ else
             }
         </tbody>
     </table>
-}
+} *@
 
 @code {
-    private WeatherForecast[]? forecasts;
+    // private WeatherForecast[]? forecasts;
 
-    protected override async Task OnInitializedAsync()
-    {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
-    }
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
+    // }
 }

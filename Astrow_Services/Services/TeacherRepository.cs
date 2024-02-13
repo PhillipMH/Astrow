@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Astrow_Services.Interfaces;
 
 namespace Astrow_Services.Services
 {
@@ -36,7 +37,7 @@ namespace Astrow_Services.Services
         }
         public async Task<Teachers> ReadSpecificTeacher(Guid teacherId)
         {
-            var foundteacher = _crud.GetUserById<Teachers>(teacherId);
+            var foundteacher = await _crud.GetUserById<Teachers>(teacherId);
             return foundteacher;
         }
         public async Task<Teachers> UpdateStudent(Teachers teacher, Guid id)

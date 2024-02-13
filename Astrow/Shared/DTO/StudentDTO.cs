@@ -10,6 +10,7 @@ namespace Astrow.Shared.DTO
     {
         public Guid StudentId { get; set; }
         public string Unilogin { get; set; }
+        public string Name { get; set; }
         public string StreetName { get; set; }
         public string HouseNumber { get; set; }
         public string City { get; set; }
