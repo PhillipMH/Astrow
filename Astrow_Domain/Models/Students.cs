@@ -23,6 +23,6 @@ namespace Astrow_Domain.Models
         public string Password { get; set; }
         public string? Gender { get; set; }
         public bool IsSick { get; set; } = false;
-        public RegisterSick RegisteredSick { get; set; }
+        public RegisterSick? RegisteredSick { get; set; }
     }
 }

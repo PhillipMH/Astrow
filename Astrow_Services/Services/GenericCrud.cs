@@ -18,9 +18,9 @@ namespace Astrow_Services.Services
         {
             _dbcontext = dbcontext;
         }
-        public async void Create<User>(User userid)
+        public async void Create<User>(User user)
         {
-            _dbcontext.Add(userid);
+            _dbcontext.Add(user);
             await _dbcontext.SaveChangesAsync();
         }
         public async void Update<User>(User userid)

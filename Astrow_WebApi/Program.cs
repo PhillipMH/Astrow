@@ -18,7 +18,7 @@ namespace Astrow_WebApi
             builder.Services.AddSwaggerGen();
             builder.Services.AddAutoMapper((typeof(Program).Assembly));
             builder.Services.AddDbContext<Astrow_DomainContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-            builder.Services.AddScoped<IGenericCrud, GenericCrud>();
+            
 
             var app = builder.Build();
 

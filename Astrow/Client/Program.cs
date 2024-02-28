@@ -1,4 +1,8 @@
 using Astrow.Client;
+using Astrow.Client.APICaller;
+using Astrow.Client.IAPICallers;
+using Astrow_Services.Interfaces;
+using Astrow_Services.Services;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -13,7 +17,8 @@ namespace Astrow.Client
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-
+            builder.Services.AddScoped<IStudentCaller, StudentCaller>();
+            builder.Services.AddScoped<IStudentInterface, StudentRepository>();
             await builder.Build().RunAsync();
         }
     }

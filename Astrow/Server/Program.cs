@@ -1,4 +1,8 @@
+using Astrow.Client.APICaller;
+using Astrow.Client.IAPICallers;
 using Astrow_Domain.DBContext;
+using Astrow_Services.Interfaces;
+using Astrow_Services.Services;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,14 +12,18 @@ namespace Astrow
     {
         public static void Main(string[] args)
         {
+
             var builder = WebApplication.CreateBuilder(args);
-
+            builder.Services.AddScoped<IGenericCrud, GenericCrud>();
+            builder.Services.AddScoped<IStudentInterface, StudentRepository>();
+            builder.Services.AddDbContext<Astrow_DomainContext>(options =>
+      options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             // Add services to the container.
-
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
+            
             var app = builder.Build();
-
+            
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {

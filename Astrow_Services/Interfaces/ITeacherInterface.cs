@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Astrow_Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,12 @@ using System.Threading.Tasks;
 
 namespace Astrow_Services.Interfaces
 {
-    internal class TeacherInterface
+    public interface ITeacherInterface
     {
+        Task<Teachers> CreateTeacher(Teachers teacher, bool teacherCreated);
+        Task<Teachers> ReadSpecificTeacher(Guid teacherId);
+        Task<Teachers> UpdateStudent(Teachers teacher, Guid id);
+        void DeleteTeacher(Guid id);
+        Task<Teachers> LoginTeacher(string unilogin, string password);
     }
 }

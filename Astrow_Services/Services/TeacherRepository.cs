@@ -11,7 +11,7 @@ using Astrow_Services.Interfaces;
 
 namespace Astrow_Services.Services
 {
-    public class TeacherRepository
+    public class TeacherRepository : ITeacherInterface
     {
         private readonly Astrow_DomainContext _dbcontext;
         private readonly IGenericCrud _crud;
