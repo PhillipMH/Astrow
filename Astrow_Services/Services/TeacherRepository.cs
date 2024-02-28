@@ -8,16 +8,17 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Astrow_Services.Interfaces;
+using Astrow.Shared.DTO;
 
 namespace Astrow_Services.Services
 {
     public class TeacherRepository : ITeacherInterface
     {
-        private readonly Astrow_DomainContext _dbcontext;
+        private readonly Astrow_DomainContext _dbContext;
         private readonly IGenericCrud _crud;
         public TeacherRepository(Astrow_DomainContext dbcontext, IGenericCrud crud)
         {
-            _dbcontext = dbcontext;
+            _dbContext = dbcontext;
             _crud = crud;
         }
         public async Task<Teachers> CreateTeacher(Teachers teacher, bool teacherCreated)
@@ -51,11 +52,13 @@ namespace Astrow_Services.Services
             var teacher = _crud.GetUserById<Teachers>(id);
             _crud.Delete(teacher);
         }
-        public async Task<Teachers> LoginTeacher(string unilogin, string password)
+        public async Task<Teachers> LoginTeacher(LoginDTO login)
         {
-            var teacher = await _dbcontext.Teachers
-                .SingleOrDefaultAsync(t => t.Unilogin == unilogin && t.Password == password);
-
+            var teacher = (await _dbContext.Teachers.ToListAsync()).SingleOrDefault(x => x.Unilogin == login.Unilogin && x.Password == login.Password);
+            if (teacher == null)
+            {
+                return null;
+            }
             return teacher;
         }
         

@@ -36,14 +36,14 @@
     <div class="row">
         <div class="col-md-12">
             <div class="login-container">
-                <h2>Login</h2>
+                <h2>Student Login</h2>
                 <form>
                     <div class="form-group">
                         <input type="text" @bind="Login.Unilogin" minlength="7" maxlength="25" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter unilogin" required>
                     </div>
                     <div class="form-group">
                         <!-- make this 8 -->
-                        <input type="password" @bind="Login.Password" minlength="4" maxlength="50" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
+                        <input type="password" @bind="Login.Password" minlength="8" maxlength="50" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
                     </div>
                     <button type="submit" class="btn btn-primary btn-block btn-login" @onclick="HandleLogin">Login</button>
                 </form>

@@ -1,26 +1,51 @@
 ﻿@page "/LoginTeachers"
-
+@using Astrow.Shared.DTO
+@inject IAPICallers.ITeacherCaller teacherCaller
 @code {
-
+    public string? unilogin { get; set; }
+    public string? password { get; set; }
+    public string? errormessage { get; set; }
+    public LoginDTO Login { get; set; } = new();
+    async Task HandleLogin()
+    {
+        try
+        {
+            var loginResult = await teacherCaller.Login(Login);
+            if (loginResult != false)
+            {
+                Console.WriteLine("Successfull");
+            }
+            if (loginResult == false)
+            {
+                Console.WriteLine("Not suc");
+                errormessage = "Something went wrong, try again";
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
 }
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="/css/LoginPage.css"/>
+<link rel="stylesheet" href="/css/LoginPage.css" />
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="login-container">
-                <h2>Login</h2>
+                <h2>Teacher Login</h2>
                 <form>
                     <div class="form-group">
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                        <input type="text" @bind="Login.Unilogin" minlength="7" maxlength="25" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Unilogin" required>
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <!-- make this 8 -->
+                        <input type="password" @bind="Login.Password" minlength="4" maxlength="50" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block btn-login">Login</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-login" @onclick="HandleLogin">Login</button>
                 </form>
             </div>
         </div>

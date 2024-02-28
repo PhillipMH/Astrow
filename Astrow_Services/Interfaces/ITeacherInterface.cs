@@ -1,4 +1,5 @@
-﻿using Astrow_Domain.Models;
+﻿using Astrow.Shared.DTO;
+using Astrow_Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,6 @@ namespace Astrow_Services.Interfaces
         Task<Teachers> ReadSpecificTeacher(Guid teacherId);
         Task<Teachers> UpdateStudent(Teachers teacher, Guid id);
         void DeleteTeacher(Guid id);
-        Task<Teachers> LoginTeacher(string unilogin, string password);
+        Task<Teachers> LoginTeacher(LoginDTO login);
     }
 }
