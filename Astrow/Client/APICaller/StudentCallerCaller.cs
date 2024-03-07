@@ -1,5 +1,6 @@
 ﻿using Astrow.Client.IAPICallers;
 using Astrow.Shared.DTO;
+using Astrow_Domain.Models;
 using System.Net.Http.Json;
 using System.Text.Json;
 
@@ -84,6 +85,21 @@ namespace Astrow.Client.APICaller
                 Console.WriteLine(e);
                 return false;
             }
+        }
+        public async Task<List<StudentDTO>> GetAllStudents()
+        {
+            List<StudentDTO> temp = new();
+            try
+            {
+                var response = await _client.GetFromJsonAsync<StudentDTO>("WeatherForecast/GetAllStudents");
+                temp.Add(response);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            return temp;
         }
     }
 

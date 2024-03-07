@@ -9,7 +9,6 @@ namespace Astrow.Shared.DTO
 {
     public class StudentDTO
     {
-        public Guid StudentId { get; set; }
         [MinLength(4)]
         [MaxLength(12)]
         public string Unilogin { get; set; }

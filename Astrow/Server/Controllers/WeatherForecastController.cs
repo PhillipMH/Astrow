@@ -4,6 +4,7 @@ using Astrow_Domain.Models;
 using Astrow_Services.Interfaces;
 using Astrow_Services.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.CompilerServices;
 
 namespace Astrow.Server.Controllers
 {
@@ -75,6 +76,14 @@ namespace Astrow.Server.Controllers
                 return NotFound();
             }
 
+        }
+        [HttpGet]
+        [Route("GetAllStudents")]
+        public async Task<List<Students>> GetAllStudents()
+        {
+            List<Students> temp = new();
+            temp = await _students.GetAllStudents();
+            return temp;
         }
     }
 }

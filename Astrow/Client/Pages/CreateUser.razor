@@ -6,7 +6,15 @@
 
     private async Task HandleValidSubmit()
     {
-        var createuser = await StudentCaller.CreateStudent(student); 
+        try
+        {
+            var createuser = await StudentCaller.CreateStudent(student);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }
 <h3>Create New Student</h3>
@@ -46,13 +54,14 @@
 
     <div class="form-group">
         <label for="city">City:</label>
+        <InputText id="streetName" minlength="1" maxlength="30" class="form-control" @bind-Value="student.City" />
+        <ValidationMessage For="@(() => student.City)" />
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password:</label>
         <InputText id="city" minlength="1" maxlength="30" class="form-control" @bind-Value="student.Password" />
         <ValidationMessage For="@(() => student.Password)" />
-    </div>
-    <div class="form-group">
-        <label for="flextotal">Flex:</label>
-        <InputDate id="flex" class="form-control" @bind-Value="student.FlexTotal" />
-        <ValidationMessage For="@(() => student.FlexTotal)" />
     </div>
     <button type="submit" class="btn btn-primary">Create Student</button>
 </EditForm>

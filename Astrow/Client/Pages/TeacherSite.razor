@@ -1,6 +1,6 @@
 ﻿@page "/teachersite"
 @using Astrow.Shared.DTO
-@using Astrow_Services.Services;
+@using Astrow.Client.IAPICallers;
 
 <h3>Teacher Site</h3>
 
@@ -17,12 +17,12 @@
         @foreach (var student in students)
         {
             <tr>
-                <td>@student.StudentId</td>
+
                 <td>@student.Unilogin</td>
                 <td>@student.FirstName + @student.LastName</td>
                 <td>
-                    <button class="btn btn-danger" @onclick="() => DeleteStudent(student.StudentId)">Delete</button>
-                    <button class="btn btn-primary" @onclick="() => UpdateStudent(student.StudentId)">Update</button>
+                    <button class="btn btn-danger" @onclick="() => DeleteStudent(student.Unilogin)">Delete</button>
+                    <button class="btn btn-primary" @onclick="() => UpdateStudent(student.Unilogin)">Update</button>
                 </td>
             </tr>
         }
@@ -31,12 +31,39 @@
 
 @code {
     private List<StudentDTO> students = new List<StudentDTO>();
+    private readonly IAPICallers.IStudentCaller _caller; 
+    protected override async Task OnInitializedAsync()
+    {
+        List<StudentDTO> student = new();
+        var tempstudents = await _caller.GetAllStudents();
+        foreach(var tempstudent in tempstudents)
+        {
+            students.Add(tempstudent);
+        }
+    }
+    public async Task<List<StudentDTO>> GetAllStudents()
+    {
+        try
+        {
+            var student = await _caller.GetAllStudents();
+            foreach(var tempstudent in student)
+            {
+                students.Add(tempstudent);
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+        return students;
+    }
 
-    public void DeleteStudent(Guid studentid)
+    public void DeleteStudent(string unilogin)
     {
 
     }
-    public void UpdateStudent(Guid studentid)
+    public void UpdateStudent(string unilogin)
     {
 
     }
