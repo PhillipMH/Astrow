@@ -1,8 +1,12 @@
 using Astrow.Client.APICaller;
 using Astrow.Client.IAPICallers;
+using Astrow.Shared.DTO;
 using Astrow_Domain.DBContext;
+using Astrow_Domain.Models;
 using Astrow_Services.Interfaces;
 using Astrow_Services.Services;
+using Astrow_Services.Services.Mapping;
+using AutoMapper;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +18,7 @@ namespace Astrow
         {
 
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddAutoMapper((typeof(Program).Assembly));
             builder.Services.AddScoped<IGenericCrud, GenericCrud>();
             builder.Services.AddScoped<IStudentInterface, StudentRepository>();
             builder.Services.AddScoped<ITeacherInterface, TeacherRepository>();

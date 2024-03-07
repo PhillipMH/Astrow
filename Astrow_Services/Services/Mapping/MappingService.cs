@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using Astrow_Domain.Models;
 using AutoMapper;
 using Astrow.Shared.DTO;
+using Astrow_Services.Interfaces;
 
 namespace Astrow_Services.Services.Mapping
 {
-    public class MappingService
+    public class MappingService 
     {
         public readonly AutoMapper.IMapper _mapper;
         public MappingService() 

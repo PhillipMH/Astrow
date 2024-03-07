@@ -44,21 +44,36 @@ namespace Astrow.Server.Controllers
             }
         }
         [HttpPost]
+        [Route("CreateStudent")]
+        public async Task<StudentDTO> CreateStudent(StudentDTO newstudent)
+        {
+            newstudent = await _students.CreateStudent(newstudent);
+
+            return newstudent;
+        }
+        [HttpGet]
+        [Route("ReadStudent")]
+        public async Task<Students> ReadSpecificStudent(Guid studentid)
+        {
+            var no = await _students.ReadSpecificStudent(studentid);
+            return no;
+        }
+        [HttpPost]
         [Route("TeacherLogin")]
         public async Task<IActionResult> TeacherLogin(LoginDTO loginDTO)
         {
-             
-        var studentnew = await _teachers.LoginTeacher(loginDTO);
+
+            var studentnew = await _teachers.LoginTeacher(loginDTO);
             if (studentnew != null)
             {
                 Console.WriteLine("suc");
                 return Ok();
-    }
+            }
             else
             {
                 Console.WriteLine("not suc");
                 return NotFound();
-}
+            }
 
         }
     }

@@ -10,7 +10,7 @@ namespace Astrow_Services.Interfaces
 {
     public interface ITeacherInterface
     {
-        Task<Teachers> CreateTeacher(Teachers teacher, bool teacherCreated);
+        Task<Teachers> CreateTeacher(Teachers teacher);
         Task<Teachers> ReadSpecificTeacher(Guid teacherId);
         Task<Teachers> UpdateStudent(Teachers teacher, Guid id);
         void DeleteTeacher(Guid id);

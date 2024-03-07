@@ -10,7 +10,7 @@ namespace Astrow_Services.Interfaces
 {
     public interface IStudentInterface
     {
-        Task<Students> CreateStudent(Students student);
+        Task<StudentDTO> CreateStudent(StudentDTO student);
         Task<Students> ReadSpecificStudent(Guid studentId);
         Task<Students> UpdateStudent(Students student, Guid id);
         Task<Students> DeleteStudent(Guid studentid);

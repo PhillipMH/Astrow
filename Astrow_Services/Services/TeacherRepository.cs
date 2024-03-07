@@ -21,16 +21,14 @@ namespace Astrow_Services.Services
             _dbContext = dbcontext;
             _crud = crud;
         }
-        public async Task<Teachers> CreateTeacher(Teachers teacher, bool teacherCreated)
+        public async Task<Teachers> CreateTeacher(Teachers teacher)
         {
             if (teacher != null)
             {
                 _crud.Create(teacher);
-                teacherCreated = true;
             }
             if (teacher == null)
             {
-                teacherCreated = false;
                 return new();
                 //add toast to frontend to indicate that something went wrong
             }
@@ -43,13 +41,13 @@ namespace Astrow_Services.Services
         }
         public async Task<Teachers> UpdateStudent(Teachers teacher, Guid id)
         {
-            _crud.GetUserById<Teachers>(id);
+            await _crud.GetUserById<Teachers>(id);
             _crud.Update(teacher);
             return new();
         }
         public async void DeleteTeacher(Guid id)
         {
-            var teacher = _crud.GetUserById<Teachers>(id);
+            var teacher = await _crud.GetUserById<Teachers>(id);
             _crud.Delete(teacher);
         }
         public async Task<Teachers> LoginTeacher(LoginDTO login)

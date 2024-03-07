@@ -11,12 +11,14 @@ using System.Threading.Tasks;
 using Astrow_Services.Interfaces;
 using Astrow.Shared.DTO;
 using System.Security.Cryptography.X509Certificates;
+using Astrow_Services.Services.Mapping;
+using AutoMapper;
 
 namespace Astrow_Services.Services
 {
     public class StudentRepository : IStudentInterface
     {
-
+        private readonly MappingService _mapper;
         private readonly IGenericCrud _crud;
         private readonly Astrow_DomainContext _dbContext;
         public StudentRepository(IGenericCrud crud, Astrow_DomainContext dbcontext)
@@ -24,19 +26,37 @@ namespace Astrow_Services.Services
             _crud = crud;
             _dbContext = dbcontext;
         }
-        public async Task<Students> CreateStudent(Students student)
+        public async Task<StudentDTO> CreateStudent(StudentDTO student)
         {
-            if (student != null)
+            Students tempstudent = new Students();
+            tempstudent.StudentId = Guid.NewGuid();
+            tempstudent.Unilogin = student.Unilogin;
+            tempstudent.FirstName = student.FirstName;
+            tempstudent.LastName = student.LastName;
+            tempstudent.City = student.City;
+            tempstudent.HouseNumber = student.HouseNumber;
+            tempstudent.Password = student.Password;
+            tempstudent.FlexTotal = student.FlexTotal;
+            tempstudent.StreetName = student.StreetName;
+
+
+            if (await CheckIfStudentExists(tempstudent.Unilogin))
             {
-                _crud.Create(student);
-                //add toast in frontend to indicate that user has been added
+                Console.WriteLine("Duplicate Unilogin");
             }
-            else if (student == null)
+            else
             {
-                return new();
-                //add toast in frontend to indicate that user wasnt created
+                try
+                {
+                    _crud.Create(tempstudent);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
             }
-            return student;
+            return new();
         }
 
         public async Task<Students> ReadSpecificStudent(Guid studentId)
@@ -77,6 +97,9 @@ namespace Astrow_Services.Services
             }
             return temp;
         }
-
+        public async Task<bool> CheckIfStudentExists(string unilogin)
+        {
+            return await _dbContext.Students.AnyAsync(s => s.Unilogin == unilogin);
+        }
     }
 }

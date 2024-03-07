@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Astrow.Shared", "Astrow\Sha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Astrow_Domain", "Astrow_Domain\Astrow_Domain.csproj", "{39B815AA-6990-495C-8ADE-26B3DD029D21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Astrow_WebApi", "Astrow_WebApi\Astrow_WebApi.csproj", "{3BD7C682-8CA5-4B01-AD46-7E0EF84BDFD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Astrow_WebApi", "Astrow_WebApi\Astrow_WebApi.csproj", "{3BD7C682-8CA5-4B01-AD46-7E0EF84BDFD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Astrow_Services", "Astrow_Services\Astrow_Services.csproj", "{E3B50F3D-A3A0-4890-8CDC-F250DDF0BAF1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Astrow_Services", "Astrow_Services\Astrow_Services.csproj", "{E3B50F3D-A3A0-4890-8CDC-F250DDF0BAF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

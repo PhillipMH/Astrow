@@ -7,7 +7,7 @@ namespace Astrow.Client.APICaller
 {
     public class StudentCaller : IStudentCaller
     {
-        private HttpClient _client;
+        private readonly HttpClient _client;
         public StudentCaller(HttpClient client)
         {
             _client = client;
@@ -16,7 +16,7 @@ namespace Astrow.Client.APICaller
         {
             try
             {
-                var response = await _client.PostAsJsonAsync<StudentDTO>("WeatherForecast", student);
+                var response = await _client.PostAsJsonAsync("WeatherForecast/CreateStudent", student);
                 response.EnsureSuccessStatusCode();
                 return student;
             }
