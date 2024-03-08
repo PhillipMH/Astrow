@@ -13,9 +13,9 @@ namespace Astrow_Services.Interfaces
         Task<StudentDTO> CreateStudent(StudentDTO student);
         Task<Students> ReadSpecificStudent(Guid studentId);
         Task<Students> UpdateStudent(Students student, Guid id);
-        Task<Students> DeleteStudent(Guid studentid);
+        Task<Students> DeleteStudent(string unilogin);
         Task<Students> LoginStudents(LoginDTO login);
-        Task<List<Students>> GetAllStudents();
+        List<Students> GetAllStudents();
     }
 }
 

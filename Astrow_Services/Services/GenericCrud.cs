@@ -43,9 +43,9 @@ namespace Astrow_Services.Services
         {
             return _dbcontext.Set<User>().Find(userid);
         }
-        public async void Delete<User>(User id)
+        public async void Delete<User>(User unilogin)
         {
-            _dbcontext.Remove(id);
+            _dbcontext.Remove(unilogin);
             await _dbcontext.SaveChangesAsync();
         }
     }

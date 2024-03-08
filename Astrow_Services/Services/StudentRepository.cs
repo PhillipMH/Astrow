@@ -72,9 +72,9 @@ namespace Astrow_Services.Services
             return new();
         }
 
-        public async Task<Students> DeleteStudent(Guid studentid)
+        public async Task<Students> DeleteStudent(string unilogin)
         {
-            _crud.Delete(studentid);
+            _crud.Delete(unilogin);
             return new();
         }
 
@@ -88,14 +88,19 @@ namespace Astrow_Services.Services
             return student;
         }
 
-        public async Task<List<Students>> GetAllStudents()
+        public List<Students> GetAllStudents()
         {
-            List<Students> temp = new();
-            foreach (var student in _dbContext.Students)
+            try
             {
-                temp.Add(student);
+                var response = _dbContext.Students.AsNoTracking().ToList();
+                return response;
             }
-            return temp;
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
         }
         public async Task<bool> CheckIfStudentExists(string unilogin)
         {

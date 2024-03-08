@@ -7,6 +7,6 @@ namespace Astrow_Services.Interfaces
         void Create<User>(User user); 
         Task<User> GetUserById<User>(Guid userid) where User : class;
         void Update<User>(User userid);
-        void Delete<User>(User id);
+        void Delete<User>(User unilogin);
     }
 }

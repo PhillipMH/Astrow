@@ -45,21 +45,6 @@ namespace Astrow.Server.Controllers
             }
         }
         [HttpPost]
-        [Route("CreateStudent")]
-        public async Task<StudentDTO> CreateStudent(StudentDTO newstudent)
-        {
-            newstudent = await _students.CreateStudent(newstudent);
-
-            return newstudent;
-        }
-        [HttpGet]
-        [Route("ReadStudent")]
-        public async Task<Students> ReadSpecificStudent(Guid studentid)
-        {
-            var no = await _students.ReadSpecificStudent(studentid);
-            return no;
-        }
-        [HttpPost]
         [Route("TeacherLogin")]
         public async Task<IActionResult> TeacherLogin(LoginDTO loginDTO)
         {
@@ -77,13 +62,50 @@ namespace Astrow.Server.Controllers
             }
 
         }
+        [HttpPost]
+        [Route("CreateStudent")]
+        public async Task<StudentDTO> CreateStudent(StudentDTO newstudent)
+        {
+            newstudent = await _students.CreateStudent(newstudent);
+
+            return newstudent;
+        }
+        [HttpGet]
+        [Route("ReadStudent")]
+        public async Task<Students> ReadSpecificStudent(Guid studentid)
+        {
+            var no = await _students.ReadSpecificStudent(studentid);
+            return no;
+        }
+        [HttpPost]
+        [Route("DeleteStudent")]
+        public async Task DeleteStudent(string unilogin)
+        {
+            try
+            {
+                var temp = await _students.DeleteStudent(unilogin);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            
+        }
         [HttpGet]
         [Route("GetAllStudents")]
-        public async Task<List<Students>> GetAllStudents()
+        public IActionResult GetAllStudents()
         {
-            List<Students> temp = new();
-            temp = await _students.GetAllStudents();
-            return temp;
+            try
+            {
+                return Ok(_students.GetAllStudents());
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

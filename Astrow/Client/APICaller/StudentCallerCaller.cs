@@ -1,6 +1,7 @@
 ﻿using Astrow.Client.IAPICallers;
 using Astrow.Shared.DTO;
 using Astrow_Domain.Models;
+using Azure;
 using System.Net.Http.Json;
 using System.Text.Json;
 
@@ -59,11 +60,11 @@ namespace Astrow.Client.APICaller
                 throw;
             }
         }
-        public async void DeleteStudent(StudentDTO id)
+        public async Task DeleteStudent(StudentDTO unilogin)
         {
             try
             {
-                var response = await _client.PostAsJsonAsync<StudentDTO>("WeatherForecast", id);
+                var response = await _client.DeleteAsync($"WeatherForecast/DeleteStudent/{unilogin}");
                 response.EnsureSuccessStatusCode();
             }
             catch (Exception e)
@@ -88,18 +89,16 @@ namespace Astrow.Client.APICaller
         }
         public async Task<List<StudentDTO>> GetAllStudents()
         {
-            List<StudentDTO> temp = new();
             try
             {
-                var response = await _client.GetFromJsonAsync<StudentDTO>("WeatherForecast/GetAllStudents");
-                temp.Add(response);
+                var response = await _client.GetFromJsonAsync<List<StudentDTO>>("WeatherForecast/GetAllStudents");
+                return response;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 throw;
             }
-            return temp;
         }
     }
 

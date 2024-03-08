@@ -1,15 +1,14 @@
 ﻿@page "/teachersite"
 @using Astrow.Shared.DTO
-@using Astrow.Client.IAPICallers;
+@inject Astrow.Client.IAPICallers.IStudentCaller studentcaller
 
 <h3>Teacher Site</h3>
 
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>ID</th>
+            <th>Unilogin</th>
             <th>Name</th>
-            <th>Email</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -30,38 +29,19 @@
 </table>
 
 @code {
-    private List<StudentDTO> students = new List<StudentDTO>();
-    private readonly IAPICallers.IStudentCaller _caller; 
+    private List<StudentDTO> students = new();
     protected override async Task OnInitializedAsync()
     {
-        List<StudentDTO> student = new();
-        var tempstudents = await _caller.GetAllStudents();
-        foreach(var tempstudent in tempstudents)
-        {
-            students.Add(tempstudent);
-        }
+        await InitializeGetStudentList();
     }
-    public async Task<List<StudentDTO>> GetAllStudents()
+    protected async Task InitializeGetStudentList()
     {
-        try
-        {
-            var student = await _caller.GetAllStudents();
-            foreach(var tempstudent in student)
-            {
-                students.Add(tempstudent);
-            }
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-        return students;
+        students = await studentcaller.GetAllStudents();
     }
 
-    public void DeleteStudent(string unilogin)
+    public async Task DeleteStudent(string unilogin)
     {
-
+        var temp = studentcaller.DeleteStudent(unilogin);
     }
     public void UpdateStudent(string unilogin)
     {
