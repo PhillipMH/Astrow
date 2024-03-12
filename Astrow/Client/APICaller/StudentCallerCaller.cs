@@ -1,4 +1,5 @@
 ﻿using Astrow.Client.IAPICallers;
+using Astrow.Shared;
 using Astrow.Shared.DTO;
 using Astrow_Domain.Models;
 using Azure;
@@ -99,6 +100,20 @@ namespace Astrow.Client.APICaller
                 Console.WriteLine(e);
                 throw;
             }
+        }
+        public async Task<StudentDTO> RegisterStudentSick(StudentDTO student)
+        {
+            try
+            {
+                var response = await _client.PostAsJsonAsync<StudentDTO>("WeatherForecast/RegisterSick", student);
+                response.EnsureSuccessStatusCode();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return student;
         }
     }
 

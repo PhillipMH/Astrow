@@ -8,7 +8,7 @@ namespace Astrow.Shared.DTO
 {
     public class LoginDTO
     {
-        public string Unilogin { get; set; }
+        public string Unilogin {get; set; }
         public string Password { get; set; }
     }
 }

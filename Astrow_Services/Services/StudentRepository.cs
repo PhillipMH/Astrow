@@ -13,6 +13,7 @@ using Astrow.Shared.DTO;
 using System.Security.Cryptography.X509Certificates;
 using Astrow_Services.Services.Mapping;
 using AutoMapper;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Astrow_Services.Services
 {
@@ -72,7 +73,7 @@ namespace Astrow_Services.Services
             return new();
         }
 
-        public async Task<Students> DeleteStudent(string unilogin)
+        public async Task<Students> DeleteStudent(StudentDTO unilogin)
         {
             _crud.Delete(unilogin);
             return new();
@@ -105,6 +106,25 @@ namespace Astrow_Services.Services
         public async Task<bool> CheckIfStudentExists(string unilogin)
         {
             return await _dbContext.Students.AnyAsync(s => s.Unilogin == unilogin);
+        }
+        public async Task<Students> RegisterStudentSick(Students student)
+        {
+            
+            RegisterSick temp = new();
+            temp.Id = Guid.NewGuid();
+            temp.TimeRegistered = DateTime.Now;
+            temp.IsAccepted = true;
+            var response = _dbContext.registerSicks.Add(temp);
+            student.StudentId = temp.PersonId;
+            
+            var response2 = _dbContext.Students.Where(e => e.StudentId == temp.PersonId);
+            if (response2.Any())
+            {
+                student.RegisteredSickId = temp.Id;
+                student.IsSick = true;
+            }
+            
+            return student;
         }
     }
 }

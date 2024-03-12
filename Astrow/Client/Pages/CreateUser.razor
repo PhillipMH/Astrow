@@ -3,12 +3,19 @@
 @using Astrow.Shared.DTO;
 @code {
     private StudentDTO student = new StudentDTO();
-
+    public string confirmPassword { get; set; }
     private async Task HandleValidSubmit()
     {
         try
         {
-            var createuser = await StudentCaller.CreateStudent(student);
+            if (confirmPassword == student.Password)
+            {
+                var createuser = await StudentCaller.CreateStudent(student);
+            }
+            else
+            {
+                return; //toast
+            }
         }
         catch (Exception e)
         {
@@ -54,13 +61,18 @@
 
     <div class="form-group">
         <label for="city">City:</label>
-        <InputText id="streetName" minlength="1" maxlength="30" class="form-control" @bind-Value="student.City" />
+        <InputText id="city" minlength="1" maxlength="30" class="form-control" @bind-Value="student.City" />
         <ValidationMessage For="@(() => student.City)" />
     </div>
 
     <div class="form-group">
         <label for="password">Password:</label>
-        <InputText id="city" minlength="1" maxlength="30" class="form-control" @bind-Value="student.Password" />
+        <InputText id="password" minlength="1" maxlength="30" class="form-control" @bind-Value="student.Password" />
+        <ValidationMessage For="@(() => student.Password)" />
+    </div>
+    <div class="form-group">
+        <label for="password">Confirm Password:</label>
+        <InputText id="confirmpassword" minlength="1" maxlength="30" class="form-control" @bind-Value="confirmPassword" />
         <ValidationMessage For="@(() => student.Password)" />
     </div>
     <button type="submit" class="btn btn-primary">Create Student</button>

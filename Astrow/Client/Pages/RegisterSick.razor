@@ -1,0 +1,18 @@
+﻿@page "/RegisterSick"
+
+<PageTitle>Register sick</PageTitle>
+
+<h1>Register Sick</h1>
+<label>Reason</label>
+<input type="text" @bind-value="sickReason">
+<button>cancel</button>
+<button>send</button>
+
+@code {
+    public string sickReason { get; set; }
+
+    public async Task RegisterStudentSick()
+    {
+
+    }
+}

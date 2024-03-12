@@ -20,7 +20,7 @@
                 <td>@student.Unilogin</td>
                 <td>@student.FirstName + @student.LastName</td>
                 <td>
-                    <button class="btn btn-danger" @onclick="() => DeleteStudent(student.Unilogin)">Delete</button>
+                    <button class="btn btn-danger" @onclick="() => DeleteStudent(student)">Delete</button>
                     <button class="btn btn-primary" @onclick="() => UpdateStudent(student.Unilogin)">Update</button>
                 </td>
             </tr>
@@ -39,7 +39,7 @@
         students = await studentcaller.GetAllStudents();
     }
 
-    public async Task DeleteStudent(string unilogin)
+    public async Task DeleteStudent(StudentDTO unilogin)
     {
         var temp = studentcaller.DeleteStudent(unilogin);
     }

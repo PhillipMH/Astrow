@@ -9,6 +9,8 @@ using Astrow_Services.Services.Mapping;
 using AutoMapper;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
+using Blazored.Modal;
+using Blazored.SessionStorage;
 
 namespace Astrow
 {
@@ -18,16 +20,18 @@ namespace Astrow
         {
 
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddBlazorBootstrap();
+            builder.Services.AddBlazoredModal();
             builder.Services.AddAutoMapper((typeof(Program).Assembly));
             builder.Services.AddScoped<IGenericCrud, GenericCrud>();
             builder.Services.AddScoped<IStudentInterface, StudentRepository>();
             builder.Services.AddScoped<ITeacherInterface, TeacherRepository>();
+            builder.Services.AddBlazoredSessionStorage();
             builder.Services.AddDbContext<Astrow_DomainContext>(options =>
       options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
-            
             var app = builder.Build();
             
             // Configure the HTTP request pipeline.

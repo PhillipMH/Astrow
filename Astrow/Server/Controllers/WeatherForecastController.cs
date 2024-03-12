@@ -3,6 +3,7 @@ using Astrow.Shared.DTO;
 using Astrow_Domain.Models;
 using Astrow_Services.Interfaces;
 using Astrow_Services.Services;
+using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.CompilerServices;
 
@@ -20,13 +21,15 @@ namespace Astrow.Server.Controllers
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly ITeacherInterface _teachers;
         private readonly IStudentInterface _students;
+        private readonly ISessionStorageService _sessionStorage;
         public string Unilogin { get; set; }
         public string Password { get; set; }
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IStudentInterface student, ITeacherInterface teacher)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IStudentInterface student, ITeacherInterface teacher, ISessionStorageService sessionStorage)
         {
             _logger = logger;
             _students = student;
             _teachers = teacher;
+            _sessionStorage = sessionStorage;
         }
         [HttpPost]
         [Route("Login")]
@@ -36,7 +39,7 @@ namespace Astrow.Server.Controllers
             if (studentnew != null)
             {
                 Console.WriteLine("suc");
-                return Ok();
+                return Ok(true);
             }
             else
             {
@@ -77,9 +80,9 @@ namespace Astrow.Server.Controllers
             var no = await _students.ReadSpecificStudent(studentid);
             return no;
         }
-        [HttpPost]
+        [HttpDelete]
         [Route("DeleteStudent")]
-        public async Task DeleteStudent(string unilogin)
+        public async Task DeleteStudent(StudentDTO unilogin)
         {
             try
             {
@@ -104,6 +107,21 @@ namespace Astrow.Server.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                throw;
+            }
+        }
+        [HttpPost]
+        [Route("RegisterStudentSick")]
+        public async Task<Students> RegisterStudentSick(Students student)
+        {
+            try
+            {
+                var no = _students.RegisterStudentSick(student);
+                return student;
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }
