@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Blazored.Modal;
 using Blazored.SessionStorage;
+using Blazored.LocalStorage;
 
 namespace Astrow
 {
@@ -26,7 +27,7 @@ namespace Astrow
             builder.Services.AddScoped<IGenericCrud, GenericCrud>();
             builder.Services.AddScoped<IStudentInterface, StudentRepository>();
             builder.Services.AddScoped<ITeacherInterface, TeacherRepository>();
-            builder.Services.AddBlazoredSessionStorage();
+            builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddDbContext<Astrow_DomainContext>(options =>
       options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             // Add services to the container.

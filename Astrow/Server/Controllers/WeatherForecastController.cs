@@ -21,15 +21,13 @@ namespace Astrow.Server.Controllers
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly ITeacherInterface _teachers;
         private readonly IStudentInterface _students;
-        private readonly ISessionStorageService _sessionStorage;
         public string Unilogin { get; set; }
         public string Password { get; set; }
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IStudentInterface student, ITeacherInterface teacher, ISessionStorageService sessionStorage)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IStudentInterface student, ITeacherInterface teacher)
         {
             _logger = logger;
             _students = student;
             _teachers = teacher;
-            _sessionStorage = sessionStorage;
         }
         [HttpPost]
         [Route("Login")]
@@ -39,7 +37,7 @@ namespace Astrow.Server.Controllers
             if (studentnew != null)
             {
                 Console.WriteLine("suc");
-                return Ok(true);
+                return Ok(studentnew);
             }
             else
             {
@@ -51,7 +49,6 @@ namespace Astrow.Server.Controllers
         [Route("TeacherLogin")]
         public async Task<IActionResult> TeacherLogin(LoginDTO loginDTO)
         {
-
             var studentnew = await _teachers.LoginTeacher(loginDTO);
             if (studentnew != null)
             {
@@ -75,9 +72,9 @@ namespace Astrow.Server.Controllers
         }
         [HttpGet]
         [Route("ReadStudent")]
-        public async Task<Students> ReadSpecificStudent(Guid studentid)
+        public async Task<Students> ReadSpecificStudent(string unilogin)
         {
-            var no = await _students.ReadSpecificStudent(studentid);
+            var no = await _students.ReadSpecificStudent(unilogin);
             return no;
         }
         [HttpDelete]
@@ -93,7 +90,6 @@ namespace Astrow.Server.Controllers
                 Console.WriteLine(e);
                 throw;
             }
-            
         }
         [HttpGet]
         [Route("GetAllStudents")]

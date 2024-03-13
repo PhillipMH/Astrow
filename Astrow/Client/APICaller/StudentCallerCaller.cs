@@ -61,11 +61,11 @@ namespace Astrow.Client.APICaller
                 throw;
             }
         }
-        public async Task DeleteStudent(StudentDTO unilogin)
+        public async Task DeleteStudent(DeleteStudentDTO student)
         {
             try
             {
-                var response = await _client.DeleteAsync($"WeatherForecast/DeleteStudent/{unilogin}");
+                var response = await _client.DeleteAsync($"WeatherForecast/DeleteStudent/{student.id}");
                 response.EnsureSuccessStatusCode();
             }
             catch (Exception e)
@@ -88,11 +88,11 @@ namespace Astrow.Client.APICaller
                 return false;
             }
         }
-        public async Task<List<StudentDTO>> GetAllStudents()
+        public async Task<List<DeleteStudentDTO>> GetAllStudents()
         {
             try
             {
-                var response = await _client.GetFromJsonAsync<List<StudentDTO>>("WeatherForecast/GetAllStudents");
+                var response = await _client.GetFromJsonAsync<List<DeleteStudentDTO>>("WeatherForecast/GetAllStudents");
                 return response;
             }
             catch (Exception e)

@@ -60,9 +60,9 @@ namespace Astrow_Services.Services
             return new();
         }
 
-        public async Task<Students> ReadSpecificStudent(Guid studentId)
+        public async Task<Students> ReadSpecificStudent(string unilogin)
         {
-            var founduser = await _crud.GetUserById<Students>(studentId);
+            var founduser = (await _dbContext.Students.ToListAsync()).SingleOrDefault(x => x.Unilogin == unilogin);
             return founduser;
         }
 
@@ -82,10 +82,7 @@ namespace Astrow_Services.Services
         public async Task<Students> LoginStudents(LoginDTO login)
         {
             var student = (await _dbContext.Students.ToListAsync()).SingleOrDefault(x => x.Unilogin == login.Unilogin && x.Password == login.Password);
-            if (student == null)
-            {
-                return null;
-            }
+            
             return student;
         }
 
@@ -114,6 +111,7 @@ namespace Astrow_Services.Services
             temp.Id = Guid.NewGuid();
             temp.TimeRegistered = DateTime.Now;
             temp.IsAccepted = true;
+            temp.PersonId = student.StudentId;
             var response = _dbContext.registerSicks.Add(temp);
             student.StudentId = temp.PersonId;
             

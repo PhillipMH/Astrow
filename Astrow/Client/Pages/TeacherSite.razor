@@ -1,7 +1,8 @@
 ﻿@page "/teachersite"
 @using Astrow.Shared.DTO
+@using Astrow.Client.Pages.Modals
 @inject Astrow.Client.IAPICallers.IStudentCaller studentcaller
-
+@inject IModalService model
 <h3>Teacher Site</h3>
 
 <table class="table table-striped">
@@ -16,11 +17,11 @@
         @foreach (var student in students)
         {
             <tr>
-
+                <td>@student.id</td>
                 <td>@student.Unilogin</td>
                 <td>@student.FirstName + @student.LastName</td>
                 <td>
-                    <button class="btn btn-danger" @onclick="() => DeleteStudent(student)">Delete</button>
+                    <button @onclick="@(() => PassData(student))" class="btn btn-danger">Delete</button>
                     <button class="btn btn-primary" @onclick="() => UpdateStudent(student.Unilogin)">Update</button>
                 </td>
             </tr>
@@ -29,7 +30,9 @@
 </table>
 
 @code {
-    private List<StudentDTO> students = new();
+    [CascadingParameter] public IModalService Modal { get; set; } = default!;
+    private List<DeleteStudentDTO> students = new();
+    public DeleteStudentDTO studentid { get; set; }
     protected override async Task OnInitializedAsync()
     {
         await InitializeGetStudentList();
@@ -38,11 +41,16 @@
     {
         students = await studentcaller.GetAllStudents();
     }
-
-    public async Task DeleteStudent(StudentDTO unilogin)
+    private void PassData(DeleteStudentDTO student)
     {
-        var temp = studentcaller.DeleteStudent(unilogin);
+
+        var parameters = new ModalParameters()
+            .Add(nameof(DeleteUser.studentDTO), student);
+            model.Show<DeleteUser>($"{student.Unilogin}");
+            
+
     }
+
     public void UpdateStudent(string unilogin)
     {
 

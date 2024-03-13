@@ -2,31 +2,68 @@
 @using Astrow.Shared.DTO
 @inject IAPICallers.IStudentCaller studentcaller
 @*@inject StudentDTO student*@
-@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject IModalService model
-
-<center>
-    <h1>Student Dashboard</h1>
-    <h3>Welcome @unilogin</h3>
-</center>
-<button class="btn btn-primary">Register Arrived or Left</button>
-<button @onclick="@(()=>model.Show<RegisterSick>("Register Sick Modal"))" class="btn btn-primary">Register Sick</button>
-
 @code {
+    [CascadingParameter] public IModalService Modal { get; set; } = default!;
     public string unilogin { get; set; }
     public string sickReason { get; set; }
-    public LoginDTO login { get; set; }
+    public LoginDTO dto;
+    public DateTime LoginTime { get; set; }
+    public DateTime LogoutTime { get; set; }
     protected override async Task OnInitializedAsync()
     {
         await SetUnilogin();
     }
     public async Task SetUnilogin()
     {
-        login = await sessionStorage.GetItemAsync<LoginDTO>("User");
-
+        dto = await localStorage.GetItemAsync<LoginDTO>("SessionUser");
     }
-    //public async Task RegisterSick(StudentDTO student)
-    //{
-    //    var response = studentcaller.RegisterStudentSick(student);
-    //}
+    public async Task RegisterSick(StudentDTO student)
+    {
+        var response = studentcaller.RegisterStudentSick(student);
+    }
+    public async Task SetArrivedTime()
+    {
+        LoginTime = DateTime.Now;
+    }
+    public async Task<int> CalculateFlex()
+    {
+        DateTime earliestIn = new DateTime(LoginTime.Year, LoginTime.Month, LoginTime.Day, 7, 0, 0);
+        DateTime latestOut = new DateTime(LogoutTime.Year, LogoutTime.Month, LogoutTime.Day, 18, 0, 0);
+        DateTime standardStart = new DateTime(LoginTime.Year, LoginTime.Month, LoginTime.Day, 8, 0, 0);
+        DateTime standardEnd = new DateTime(LogoutTime.Year, LogoutTime.Month, LogoutTime.Day, 15, 24, 0);
+
+        int flexMinutes = 0;
+
+        
+        if (LoginTime < standardStart)
+        {
+            TimeSpan earlySpan = standardStart - LoginTime;
+            flexMinutes += (int)earlySpan.TotalMinutes;
+        }
+
+        
+        if (LogoutTime > standardEnd)
+        {
+            TimeSpan lateSpan = LogoutTime - standardEnd;
+            flexMinutes += (int)lateSpan.TotalMinutes;
+        }
+
+        return flexMinutes;
+    }
 }
+<center>
+    <h1>Student Dashboard</h1>
+    @if (dto != null)
+    {
+        <h3>Welcome @dto.Unilogin</h3>
+    }
+    @if(LoginTime == null) {
+        <button class="btn btn-primary">Register Arrived</button>
+    }
+    
+<button @onclick="@(()=>model.Show<RegisterSick>(""))" class="btn btn-primary">Register Sick</button>
+</center>
+
+

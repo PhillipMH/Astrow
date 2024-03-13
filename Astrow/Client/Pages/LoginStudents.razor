@@ -2,7 +2,7 @@
 @using Astrow.Shared.DTO
 @inject IAPICallers.IStudentCaller StudentCaller
 @inject NavigationManager NavManager
-@inject IJSRuntime JSRuntime
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
 @code {
     public string? unilogin { get; set; }
     public string? password { get; set; }
@@ -16,7 +16,7 @@
             if (loginResult != false)
             {
                 Console.WriteLine("Successfull");
-                await JSRuntime.InvokeAsync<object>("sessionStorage.setItem", "SessionUser", Login);
+                await localStorage.SetItemAsync("SessionUser", Login);
                 NavManager.NavigateTo("/Dashboard");
             }
             if (loginResult == false)

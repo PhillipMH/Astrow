@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Blazored.Modal;
 using Blazored.SessionStorage;
+using Blazored.LocalStorage;
 
 namespace Astrow.Client
 {
@@ -22,7 +23,8 @@ namespace Astrow.Client
 
             builder.Services.AddScoped<IStudentCaller, StudentCaller>();
             builder.Services.AddScoped<IStudentInterface, StudentRepository>();
-            builder.Services.AddBlazoredSessionStorage();
+            builder.Services.AddScoped<ITeacherCaller, TeacherCaller>();
+            builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddBlazoredModal();
             await builder.Build().RunAsync();
         }
